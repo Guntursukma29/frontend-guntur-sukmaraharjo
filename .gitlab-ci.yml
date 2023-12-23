@@ -1,0 +1,23 @@
+image: node:14
+
+stages:
+  - build
+  - deploy
+
+before_script:
+  - npm install
+
+build:
+  stage: build
+  script:
+    - npm run build
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - apt-get update -qy
+    - apt-get install -y npm
+    - npm install -g serve
+    - serve -s build -l 3000
